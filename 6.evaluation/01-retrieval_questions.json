@@ -1,0 +1,60 @@
+[
+  {
+    "question": "What genes are involved in maize salt stress response?",
+    "relevant_pmids": [
+      "42197717",
+      "42700269",
+      "42654882"
+    ]
+  },
+  {
+    "question": "How does salt stress affect photosynthesis in maize?",
+    "relevant_pmids": [
+      "42508694",
+      "42480472"
+    ]
+  },
+  {
+    "question": "How does alternative splicing contribute to salt stress responses?",
+    "relevant_pmids": [
+      "41373796",
+      "40998192",
+      "41653591",
+      "40219132"
+    ]
+  },
+  {
+    "question": "Which genes regulate salt tolerance in maize?",
+    "relevant_pmids": [
+      "42197717",
+      "42612888",
+      "42654882"
+    ]
+  },
+  {
+    "question": "What role does alternative splicing play in wheat salt tolerance?",
+    "relevant_pmids": [
+      "40998192"
+    ]
+  },
+  {
+    "question": "What splicing factors are involved in plant salt stress responses?",
+    "relevant_pmids": [
+      "41373796",
+      "41653591"
+    ]
+  },
+  {
+    "question": "How do plants regulate sodium uptake under salt stress?",
+    "relevant_pmids": [
+      "40712791",
+      "42680914"
+    ]
+  },
+  {
+    "question": "How does ZmMYC7 regulate salt tolerance in maize?",
+    "relevant_pmids": [
+      "42612888"
+    ]
+  }
+]

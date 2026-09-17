@@ -1,0 +1,58 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Environment variables / secrets
+.env
+*.env
+secrets/
+*.key
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Hugging Face / model cache
+huggingface_cache/
+.cache/
+
+# Generated outputs
+outputs/
+logs/
+tmp/
+temp/
+
+# Local retrieval data and indexes
+5.retrieval/pubmed_corpus*.json
+5.retrieval/index/
+5.retrieval/index_v2/
+
+# Generated retrieval results
+5.retrieval/*_results.json
+
+# Generated evaluation results
+6.evaluation/*_results.json
+6.evaluation/*_evaluation.json
+
+# Local model / index files
+*.faiss
+*.index
+*.bin
+*.pt
+*.pth
+*.safetensors
+
+# Build artifacts
+*.egg-info/
+dist/
+build/

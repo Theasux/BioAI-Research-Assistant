@@ -1,0 +1,184 @@
+[
+  {
+    "question": "What genes are involved in maize salt stress response?",
+    "relevant_pmids": [
+      "42197717",
+      "42700269",
+      "42654882"
+    ],
+    "ground_truth": {
+      "42197717": {
+        "dense_rank": 7,
+        "dense_score": 0.7654796838760376,
+        "bm25_rank": 4,
+        "bm25_score": 15.543524764525017
+      },
+      "42700269": {
+        "dense_rank": 9,
+        "dense_score": 0.7599549889564514,
+        "bm25_rank": 54,
+        "bm25_score": 12.148898334323768
+      },
+      "42654882": {
+        "dense_rank": 27,
+        "dense_score": 0.7023447155952454,
+        "bm25_rank": 43,
+        "bm25_score": 12.50860709263914
+      }
+    }
+  },
+  {
+    "question": "How does salt stress affect photosynthesis in maize?",
+    "relevant_pmids": [
+      "42508694",
+      "42480472"
+    ],
+    "ground_truth": {
+      "42508694": {
+        "dense_rank": 30,
+        "dense_score": 0.6464544534683228,
+        "bm25_rank": 41,
+        "bm25_score": 10.70948213424825
+      },
+      "42480472": {
+        "dense_rank": 16,
+        "dense_score": 0.6731204986572266,
+        "bm25_rank": 26,
+        "bm25_score": 11.63566823192674
+      }
+    }
+  },
+  {
+    "question": "How does alternative splicing contribute to salt stress responses?",
+    "relevant_pmids": [
+      "41373796",
+      "40998192",
+      "41653591",
+      "40219132"
+    ],
+    "ground_truth": {
+      "41373796": {
+        "dense_rank": 2,
+        "dense_score": 0.81528639793396,
+        "bm25_rank": 8,
+        "bm25_score": 15.602564147215036
+      },
+      "40998192": {
+        "dense_rank": 4,
+        "dense_score": 0.7289295792579651,
+        "bm25_rank": 42,
+        "bm25_score": 12.161021763631533
+      },
+      "41653591": {
+        "dense_rank": 10,
+        "dense_score": 0.7078990936279297,
+        "bm25_rank": 22,
+        "bm25_score": 14.148611405418553
+      },
+      "40219132": {
+        "dense_rank": 12,
+        "dense_score": 0.6886001825332642,
+        "bm25_rank": 25,
+        "bm25_score": 13.979747126584376
+      }
+    }
+  },
+  {
+    "question": "Which genes regulate salt tolerance in maize?",
+    "relevant_pmids": [
+      "42197717",
+      "42612888",
+      "42654882"
+    ],
+    "ground_truth": {
+      "42197717": {
+        "dense_rank": 9,
+        "dense_score": 0.7563191652297974,
+        "bm25_rank": 12,
+        "bm25_score": 12.169950852836362
+      },
+      "42612888": {
+        "dense_rank": 64,
+        "dense_score": 0.6630915403366089,
+        "bm25_rank": 68,
+        "bm25_score": 10.5145939959237
+      },
+      "42654882": {
+        "dense_rank": 8,
+        "dense_score": 0.7579693794250488,
+        "bm25_rank": 20,
+        "bm25_score": 11.933325123498138
+      }
+    }
+  },
+  {
+    "question": "What role does alternative splicing play in wheat salt tolerance?",
+    "relevant_pmids": [
+      "40998192"
+    ],
+    "ground_truth": {
+      "40998192": {
+        "dense_rank": 2,
+        "dense_score": 0.8623544573783875,
+        "bm25_rank": 1,
+        "bm25_score": 18.60077544977534
+      }
+    }
+  },
+  {
+    "question": "What splicing factors are involved in plant salt stress responses?",
+    "relevant_pmids": [
+      "41373796",
+      "41653591"
+    ],
+    "ground_truth": {
+      "41373796": {
+        "dense_rank": 11,
+        "dense_score": 0.7417680621147156,
+        "bm25_rank": 34,
+        "bm25_score": 13.210465298571195
+      },
+      "41653591": {
+        "dense_rank": 8,
+        "dense_score": 0.7609931230545044,
+        "bm25_rank": 51,
+        "bm25_score": 12.534796545938862
+      }
+    }
+  },
+  {
+    "question": "How do plants regulate sodium uptake under salt stress?",
+    "relevant_pmids": [
+      "40712791",
+      "42680914"
+    ],
+    "ground_truth": {
+      "40712791": {
+        "dense_rank": 24,
+        "dense_score": 0.6492002606391907,
+        "bm25_rank": 20,
+        "bm25_score": 10.691995291099484
+      },
+      "42680914": {
+        "dense_rank": 396,
+        "dense_score": 0.4850064516067505,
+        "bm25_rank": 448,
+        "bm25_score": 4.854351187568938
+      }
+    }
+  },
+  {
+    "question": "How does ZmMYC7 regulate salt tolerance in maize?",
+    "relevant_pmids": [
+      "42612888"
+    ],
+    "ground_truth": {
+      "42612888": {
+        "dense_rank": 1,
+        "dense_score": 0.7878743410110474,
+        "bm25_rank": 1,
+        "bm25_score": 23.114692251124104
+      }
+    }
+  }
+]
