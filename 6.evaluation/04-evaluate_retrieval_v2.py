@@ -8,9 +8,9 @@ from rank_bm25 import BM25Okapi
 from sentence_transformers import SentenceTransformer
 
 
-# ============================================================
+
 # Configuration
-# ============================================================
+
 
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = BASE_DIR.parent
@@ -47,9 +47,9 @@ BM25_CANDIDATE_K = 100
 RRF_K = 60
 
 
-# ============================================================
+
 # Helper functions
-# ============================================================
+
 
 def tokenize(text):
     """
@@ -345,18 +345,18 @@ def evaluate_method(retrieved_pmids, relevant_pmids):
     }
 
 
-# ============================================================
+
 # Main
-# ============================================================
+
 
 print("=" * 70)
 print("BioAI Retrieval V2 Evaluation")
 print("=" * 70)
 
 
-# ============================================================
+
 # Load corpus
-# ============================================================
+
 
 print("\nLoading PubMed corpus...")
 
@@ -371,9 +371,9 @@ with open(
 print(f"Papers loaded: {len(corpus)}")
 
 
-# ============================================================
+
 # Load Dense index
-# ============================================================
+
 
 print("\nLoading Dense Retrieval V2 index...")
 
@@ -395,9 +395,9 @@ print(f"FAISS vectors: {index.ntotal}")
 print(f"FAISS dimension: {index.d}")
 
 
-# ============================================================
+
 # Load chunk metadata
-# ============================================================
+
 
 print("\nLoading chunk metadata...")
 
@@ -421,9 +421,9 @@ if index.ntotal != len(chunks):
 print("Dense index and chunk metadata are consistent.")
 
 
-# ============================================================
+
 # Load BM25
-# ============================================================
+
 
 print("\nBuilding BM25 index...")
 
@@ -441,9 +441,9 @@ bm25 = BM25Okapi(
 print(f"BM25 documents: {len(bm25_documents)}")
 
 
-# ============================================================
+
 # Load embedding model
-# ============================================================
+
 
 print("\nLoading embedding model...")
 
@@ -454,9 +454,9 @@ model = SentenceTransformer(
 print(f"Embedding model: {MODEL_NAME}")
 
 
-# ============================================================
+
 # Load benchmark questions
-# ============================================================
+
 
 print("\nLoading evaluation questions...")
 
@@ -471,9 +471,9 @@ with open(
 print(f"Questions: {len(questions)}")
 
 
-# ============================================================
+
 # Evaluation
-# ============================================================
+
 
 all_results = []
 
@@ -659,9 +659,9 @@ for question_number, item in enumerate(
     hybrid_metrics.append(hybrid_eval)
 
 
-# ============================================================
+
 # Overall metrics
-# ============================================================
+
 
 def mean_metric(metrics, key):
 
@@ -723,9 +723,9 @@ hybrid_overall = {
 }
 
 
-# ============================================================
+
 # Print overall results
-# ============================================================
+
 
 print("\n")
 print("=" * 70)
@@ -763,9 +763,9 @@ print(
 )
 
 
-# ============================================================
+
 # Save evaluation results
-# ============================================================
+
 
 output = {
 

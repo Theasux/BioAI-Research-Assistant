@@ -8,9 +8,9 @@ from rank_bm25 import BM25Okapi
 from sentence_transformers import SentenceTransformer
 
 
-# ============================================================
+
 # 1. Paths
-# ============================================================
+
 
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = BASE_DIR.parent
@@ -36,9 +36,9 @@ QUESTIONS_PATH = (
 )
 
 
-# ============================================================
+
 # 2. Basic text tokenizer for BM25
-# ============================================================
+
 
 def tokenize(text):
     """
@@ -48,9 +48,9 @@ def tokenize(text):
     return re.findall(r"\b\w+\b", text.lower())
 
 
-# ============================================================
+
 # 3. Load corpus
-# ============================================================
+
 
 print("=" * 70)
 print("BioAI Retrieval Error Analysis")
@@ -64,9 +64,9 @@ with open(CORPUS_PATH, "r", encoding="utf-8") as f:
 print(f"Papers: {len(corpus)}")
 
 
-# ============================================================
+
 # 4. Load chunks
-# ============================================================
+
 
 print("\nLoading chunks...")
 
@@ -76,9 +76,9 @@ with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
 print(f"Chunks: {len(chunks)}")
 
 
-# ============================================================
+
 # 5. Build paper-level BM25 corpus
-# ============================================================
+
 
 print("\nBuilding BM25 index...")
 
@@ -101,9 +101,9 @@ bm25 = BM25Okapi(tokenized_corpus)
 print("BM25 ready.")
 
 
-# ============================================================
+
 # 6. Load Dense FAISS index
-# ============================================================
+
 
 print("\nLoading FAISS index...")
 
@@ -113,9 +113,9 @@ print(f"Dense vectors: {dense_index.ntotal}")
 print(f"Dimension: {dense_index.d}")
 
 
-# ============================================================
+
 # 7. Load embedding model
-# ============================================================
+
 
 print("\nLoading embedding model...")
 
@@ -126,9 +126,9 @@ model = SentenceTransformer(
 print("Embedding model ready.")
 
 
-# ============================================================
+
 # 8. Load evaluation questions
-# ============================================================
+
 
 print("\nLoading evaluation questions...")
 
@@ -138,9 +138,9 @@ with open(QUESTIONS_PATH, "r", encoding="utf-8") as f:
 print(f"Questions: {len(questions)}")
 
 
-# ============================================================
+
 # 9. Build mappings
-# ============================================================
+
 
 # Corpus order:
 # PMID -> paper index
@@ -158,9 +158,9 @@ chunk_pmids = [
 ]
 
 
-# ============================================================
+
 # 10. Analyze each question
-# ============================================================
+
 
 all_results = []
 
@@ -281,9 +281,9 @@ for q_idx, item in enumerate(questions, start=1):
     bm25_score_dict = dict(bm25_ranking)
 
 
-    # ========================================================
+
     # Print ground-truth diagnostic table
-    # ========================================================
+
 
     print("\n")
     print(
@@ -339,9 +339,9 @@ for q_idx, item in enumerate(questions, start=1):
         )
 
 
-    # ========================================================
+
     # Print Top 10 for each method
-    # ========================================================
+
 
     print("\nDense Top 10:")
     for rank, (pmid, score) in enumerate(
@@ -384,9 +384,9 @@ for q_idx, item in enumerate(questions, start=1):
         )
 
 
-    # ========================================================
+
     # Save diagnostic result
-    # ========================================================
+
 
     question_result = {
         "question": question,
@@ -406,9 +406,9 @@ for q_idx, item in enumerate(questions, start=1):
     all_results.append(question_result)
 
 
-# ============================================================
+
 # 11. Save results
-# ============================================================
+
 
 OUTPUT_PATH = (
     BASE_DIR
@@ -429,9 +429,9 @@ with open(
     )
 
 
-# ============================================================
+
 # 12. Finished
-# ============================================================
+
 
 print("\n")
 print("=" * 70)

@@ -8,9 +8,9 @@ from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 
 
-# ============================================================
+
 # 1. Project paths
-# ============================================================
+
 
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = BASE_DIR.parent
@@ -28,9 +28,9 @@ CHUNKS_PATH = (
 )
 
 
-# ============================================================
+
 # 2. Retrieval parameters
-# ============================================================
+
 
 # 第一步：
 # FAISS 先找更多候选 chunk
@@ -41,9 +41,9 @@ CANDIDATE_K = 20
 TOP_PAPERS = 5
 
 
-# ============================================================
+
 # 3. Basic information
-# ============================================================
+
 
 print("=" * 70)
 print("BioAI RAG V1.5")
@@ -63,9 +63,9 @@ print("Candidate chunks:", CANDIDATE_K)
 print("Final unique papers:", TOP_PAPERS)
 
 
-# ============================================================
+
 # 4. Check files
-# ============================================================
+
 
 print("\n" + "=" * 70)
 print("Checking required files")
@@ -86,9 +86,9 @@ if not CHUNKS_PATH.exists():
 print("All required files exist.")
 
 
-# ============================================================
+
 # 5. Load FAISS index
-# ============================================================
+
 
 print("\nLoading FAISS index...")
 
@@ -100,9 +100,9 @@ print("FAISS vectors:", index.ntotal)
 print("Vector dimension:", index.d)
 
 
-# ============================================================
+
 # 6. Load chunk metadata
-# ============================================================
+
 
 print("\nLoading chunk metadata...")
 
@@ -116,9 +116,9 @@ with open(
 print("Loaded chunks:", len(chunks))
 
 
-# ============================================================
+
 # 7. Check consistency
-# ============================================================
+
 
 if index.ntotal != len(chunks):
     raise RuntimeError(
@@ -130,9 +130,9 @@ if index.ntotal != len(chunks):
 print("Index and metadata are consistent.")
 
 
-# ============================================================
+
 # 8. Load embedding model
-# ============================================================
+
 
 print("\nLoading embedding model...")
 
@@ -143,9 +143,9 @@ embedding_model = SentenceTransformer(
 print("Embedding model loaded.")
 
 
-# ============================================================
+
 # 9. Load DeepSeek API key
-# ============================================================
+
 
 print("\nChecking DeepSeek API key...")
 
@@ -159,9 +159,9 @@ if not api_key:
 print("DeepSeek API key detected.")
 
 
-# ============================================================
+
 # 10. Initialize LLM client
-# ============================================================
+
 
 client = OpenAI(
     api_key=api_key,
@@ -169,9 +169,9 @@ client = OpenAI(
 )
 
 
-# ============================================================
+
 # 11. Get user question
-# ============================================================
+
 
 print("\n" + "=" * 70)
 print("Question")
@@ -187,9 +187,9 @@ if not question:
     )
 
 
-# ============================================================
+
 # 12. Embed question
-# ============================================================
+
 
 print("\nEmbedding question...")
 
@@ -205,9 +205,9 @@ print(
 )
 
 
-# ============================================================
+
 # 13. FAISS candidate retrieval
-# ============================================================
+
 
 print(
     f"\nSearching FAISS for top {CANDIDATE_K} chunks..."
@@ -219,9 +219,9 @@ scores, indices = index.search(
 )
 
 
-# ============================================================
+
 # 14. PMID-based deduplication
-# ============================================================
+
 
 print("\n" + "=" * 70)
 print("PMID Deduplication")
@@ -296,9 +296,9 @@ print(
 )
 
 
-# ============================================================
+
 # 15. Sort unique papers by similarity
-# ============================================================
+
 
 unique_papers = sorted(
     best_chunk_by_pmid.values(),
@@ -307,18 +307,18 @@ unique_papers = sorted(
 )
 
 
-# ============================================================
+
 # 16. Keep Top-K unique papers
-# ============================================================
+
 
 retrieved_papers = unique_papers[
     :TOP_PAPERS
 ]
 
 
-# ============================================================
+
 # 17. Display retrieval results
-# ============================================================
+
 
 print("\n" + "=" * 70)
 print("Final Retrieved Papers")
@@ -347,9 +347,9 @@ for rank, paper in enumerate(
     print()
 
 
-# ============================================================
+
 # 18. Build evidence context
-# ============================================================
+
 
 context_parts = []
 
@@ -375,9 +375,9 @@ context = "\n".join(
 )
 
 
-# ============================================================
+
 # 19. System prompt
-# ============================================================
+
 
 system_prompt = """
 You are a scientific literature assistant specializing in
@@ -428,9 +428,9 @@ PMID 格式：
 """
 
 
-# ============================================================
+
 # 20. User prompt
-# ============================================================
+
 
 user_prompt = f"""
 用户问题：
@@ -456,9 +456,9 @@ user_prompt = f"""
 """
 
 
-# ============================================================
+
 # 21. Call DeepSeek
-# ============================================================
+
 
 print("\n" + "=" * 70)
 print("Generating answer...")
@@ -480,16 +480,16 @@ response = client.chat.completions.create(
 )
 
 
-# ============================================================
+
 # 22. Get final answer
-# ============================================================
+
 
 answer = response.choices[0].message.content
 
 
-# ============================================================
+
 # 23. Display answer
-# ============================================================
+
 
 print("\n" + "=" * 70)
 print("Answer")
@@ -498,9 +498,9 @@ print("=" * 70)
 print(answer)
 
 
-# ============================================================
+
 # 24. Display evidence
-# ============================================================
+
 
 print("\n" + "=" * 70)
 print("Retrieved Evidence")

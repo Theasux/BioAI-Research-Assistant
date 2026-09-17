@@ -8,9 +8,9 @@ from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 
 
-# ============================================================
+
 # 1. 路径配置
-# ============================================================
+
 
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = BASE_DIR.parent
@@ -19,9 +19,9 @@ INDEX_PATH = Path("5.retrieval") / "index" / "pubmed.index"
 CHUNKS_PATH = PROJECT_DIR / "5.retrieval" / "index" / "chunks.json"
 
 
-# ============================================================
+
 # 2. 实验参数
-# ============================================================
+
 
 CANDIDATE_K = 20
 TOP_PAPERS = 5
@@ -30,9 +30,9 @@ MODEL_NAME = "all-MiniLM-L6-v2"
 LLM_MODEL = "deepseek-chat"
 
 
-# ============================================================
+
 # 3. 测试问题
-# ============================================================
+
 
 QUESTIONS = [
     "How does alternative splicing contribute to salt stress responses?",
@@ -42,9 +42,9 @@ QUESTIONS = [
 ]
 
 
-# ============================================================
+
 # 4. 加载 FAISS
-# ============================================================
+
 
 print("=" * 70)
 print("BioAI Evaluation: LLM-only vs RAG")
@@ -63,9 +63,9 @@ print(f"FAISS vectors: {index.ntotal}")
 print(f"Vector dimension: {index.d}")
 
 
-# ============================================================
+
 # 5. 加载 chunks metadata
-# ============================================================
+
 
 print("\nLoading chunk metadata...")
 
@@ -80,9 +80,9 @@ with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
 print(f"Loaded chunks: {len(chunks)}")
 
 
-# ============================================================
+
 # 6. 加载 Embedding 模型
-# ============================================================
+
 
 print("\nLoading embedding model...")
 
@@ -91,9 +91,9 @@ embedding_model = SentenceTransformer(MODEL_NAME)
 print("Embedding model loaded.")
 
 
-# ============================================================
+
 # 7. 初始化 DeepSeek
-# ============================================================
+
 
 api_key = os.getenv("DEEPSEEK_API_KEY")
 
@@ -110,9 +110,9 @@ client = OpenAI(
 print("DeepSeek API key detected.")
 
 
-# ============================================================
+
 # 8. LLM-only
-# ============================================================
+
 
 def ask_llm_only(question):
     """
@@ -153,9 +153,9 @@ You are a scientific literature assistant.
     return response.choices[0].message.content
 
 
-# ============================================================
+
 # 9. RAG retrieval
-# ============================================================
+
 
 def retrieve_papers(question):
     """
@@ -220,9 +220,9 @@ def retrieve_papers(question):
     return unique_papers[:TOP_PAPERS]
 
 
-# ============================================================
+
 # 10. RAG answer
-# ============================================================
+
 
 def ask_rag(question, retrieved_papers):
 
@@ -295,9 +295,9 @@ Literature evidence:
     return answer
 
 
-# ============================================================
+
 # 11. 运行实验
-# ============================================================
+
 
 results = []
 
@@ -378,9 +378,9 @@ for question_id, question in enumerate(QUESTIONS, start=1):
     )
 
 
-# ============================================================
+
 # 12. 保存 JSON
-# ============================================================
+
 
 OUTPUT_PATH = BASE_DIR / "03-llm_vs_rag_results.json"
 
@@ -398,9 +398,9 @@ with open(
     )
 
 
-# ============================================================
+
 # 13. 完成
-# ============================================================
+
 
 print("\n")
 print("=" * 70)

@@ -2,9 +2,9 @@ import json
 from pathlib import Path
 
 
-# ============================================================
+
 # BioAI Ground Truth Coverage Audit
-# ============================================================
+
 
 print("=" * 70)
 print("BioAI Ground Truth Coverage Audit")

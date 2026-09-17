@@ -8,9 +8,9 @@ import faiss
 from sentence_transformers import SentenceTransformer
 
 
-# ============================================================
+
 # 1. PubMed API：搜索论文
-# ============================================================
+
 
 def search_pubmed(query, retmax=10):
     """
@@ -37,9 +37,9 @@ def search_pubmed(query, retmax=10):
     return pmids
 
 
-# ============================================================
+
 # 2. PubMed API：根据 PMID 获取论文
-# ============================================================
+
 
 def fetch_pubmed_articles(pmids):
     """
@@ -121,9 +121,9 @@ def fetch_pubmed_articles(pmids):
     return papers
 
 
-# ============================================================
+
 # 3. Chunking：把摘要切成多个文本片段
-# ============================================================
+
 
 def chunk_text(text, chunk_size=500, overlap=100):
     """
@@ -154,9 +154,9 @@ def chunk_text(text, chunk_size=500, overlap=100):
     return chunks
 
 
-# ============================================================
+
 # 4. 构建 Chunk 数据集
-# ============================================================
+
 
 def build_chunks(papers):
     """
@@ -189,9 +189,9 @@ def build_chunks(papers):
     return all_chunks
 
 
-# ============================================================
+
 # 5. Embedding
-# ============================================================
+
 
 def build_embeddings(chunks, model):
     """
@@ -214,9 +214,9 @@ def build_embeddings(chunks, model):
     return embeddings
 
 
-# ============================================================
+
 # 6. 建立 FAISS Index
-# ============================================================
+
 
 def build_faiss_index(embeddings):
     """
@@ -235,9 +235,9 @@ def build_faiss_index(embeddings):
     return index
 
 
-# ============================================================
+
 # 7. Semantic Retrieval
-# ============================================================
+
 
 def semantic_search(query, model, index, chunks, top_k=5):
     """
@@ -276,9 +276,9 @@ def semantic_search(query, model, index, chunks, top_k=5):
     return results
 
 
-# ============================================================
+
 # 8. 主程序
-# ============================================================
+
 
 def main():
 

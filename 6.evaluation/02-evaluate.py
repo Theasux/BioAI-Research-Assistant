@@ -6,9 +6,9 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 
 
-# ============================================================
+
 # 1. Project paths
-# ============================================================
+
 
 # 当前脚本所在目录
 BASE_DIR = Path(__file__).resolve().parent
@@ -31,18 +31,18 @@ CHUNKS_PATH = PROJECT_DIR / "5.retrieval" / "index" / "chunks.json"
 QUESTIONS_PATH = BASE_DIR / "01-retrieval_questions.json"
 
 
-# ============================================================
+
 # 2. Configuration
-# ============================================================
+
 
 MODEL_NAME = "all-MiniLM-L6-v2"
 
 TOP_K = 5
 
 
-# ============================================================
+
 # 3. Print information
-# ============================================================
+
 
 print("=" * 70)
 print("Retrieval Evaluation")
@@ -64,9 +64,9 @@ print("\nEvaluation questions:")
 print(QUESTIONS_PATH)
 
 
-# ============================================================
+
 # 4. Check files
-# ============================================================
+
 
 print("\nChecking files...")
 
@@ -89,9 +89,9 @@ if not QUESTIONS_PATH.exists():
 print("All required files exist.")
 
 
-# ============================================================
+
 # 5. Load FAISS index
-# ============================================================
+
 
 print("\nLoading FAISS index...")
 
@@ -103,9 +103,9 @@ print(f"FAISS vectors: {index.ntotal}")
 print(f"Vector dimension: {index.d}")
 
 
-# ============================================================
+
 # 6. Load chunk metadata
-# ============================================================
+
 
 print("\nLoading chunk metadata...")
 
@@ -115,9 +115,9 @@ with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
 print(f"Loaded chunks: {len(chunks)}")
 
 
-# ============================================================
+
 # 7. Load evaluation questions
-# ============================================================
+
 
 print("\nLoading evaluation questions...")
 
@@ -127,9 +127,9 @@ with open(QUESTIONS_PATH, "r", encoding="utf-8") as f:
 print(f"Evaluation questions: {len(questions)}")
 
 
-# ============================================================
+
 # 8. Check consistency
-# ============================================================
+
 
 if index.ntotal != len(chunks):
     raise ValueError(
@@ -140,9 +140,9 @@ if index.ntotal != len(chunks):
 print("Index and metadata are consistent.")
 
 
-# ============================================================
+
 # 9. Load embedding model
-# ============================================================
+
 
 print("\nLoading embedding model...")
 
@@ -151,9 +151,9 @@ model = SentenceTransformer(MODEL_NAME)
 print("Embedding model loaded.")
 
 
-# ============================================================
+
 # 10. Evaluate one question
-# ============================================================
+
 
 def evaluate_question(question_data):
 
@@ -256,9 +256,9 @@ def evaluate_question(question_data):
     }
 
 
-# ============================================================
+
 # 11. Run evaluation
-# ============================================================
+
 
 results = []
 
@@ -303,9 +303,9 @@ for i, question_data in enumerate(
     )
 
 
-# ============================================================
+
 # 12. Calculate overall metrics
-# ============================================================
+
 
 mean_recall = np.mean(
     [
@@ -329,9 +329,9 @@ mrr = np.mean(
 )
 
 
-# ============================================================
+
 # 13. Final results
-# ============================================================
+
 
 print("\n" + "=" * 70)
 print("Overall Evaluation Results")

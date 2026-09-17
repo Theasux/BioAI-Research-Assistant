@@ -8,9 +8,9 @@ from sentence_transformers import SentenceTransformer
 from openai import OpenAI
 
 
-# ============================================================
+
 # 1. Project paths
-# ============================================================
+
 
 BASE_DIR = Path(__file__).resolve().parent
 PROJECT_DIR = BASE_DIR.parent
@@ -19,9 +19,9 @@ INDEX_PATH = Path("5.retrieval") / "index" / "pubmed.index"
 CHUNKS_PATH = PROJECT_DIR / "5.retrieval" / "index" / "chunks.json"
 
 
-# ============================================================
+
 # 2. Load FAISS index
-# ============================================================
+
 
 print("=" * 70)
 print("BioAI RAG V1")
@@ -35,9 +35,9 @@ print("FAISS vectors:", index.ntotal)
 print("Vector dimension:", index.d)
 
 
-# ============================================================
+
 # 3. Load chunk metadata
-# ============================================================
+
 
 print("\nLoading chunk metadata...")
 
@@ -47,9 +47,9 @@ with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
 print("Loaded chunks:", len(chunks))
 
 
-# ============================================================
+
 # 4. Load embedding model
-# ============================================================
+
 
 print("\nLoading embedding model...")
 
@@ -60,9 +60,9 @@ embedding_model = SentenceTransformer(
 print("Embedding model loaded.")
 
 
-# ============================================================
+
 # 5. Initialize LLM client
-# ============================================================
+
 
 api_key = os.getenv("DEEPSEEK_API_KEY")
 
@@ -78,18 +78,18 @@ client = OpenAI(
 )
 
 
-# ============================================================
+
 # 6. User question
-# ============================================================
+
 
 question = input(
     "\nEnter your question:\n> "
 )
 
 
-# ============================================================
+
 # 7. Convert question into embedding
-# ============================================================
+
 
 query_embedding = embedding_model.encode(
     [question],
@@ -98,9 +98,9 @@ query_embedding = embedding_model.encode(
 ).astype("float32")
 
 
-# ============================================================
+
 # 8. Retrieve top chunks
-# ============================================================
+
 
 TOP_K = 5
 
@@ -110,9 +110,9 @@ scores, indices = index.search(
 )
 
 
-# ============================================================
+
 # 9. Build context
-# ============================================================
+
 
 context_parts = []
 
@@ -146,9 +146,9 @@ Similarity score: {score:.4f}
 context = "\n".join(context_parts)
 
 
-# ============================================================
+
 # 10. Build RAG prompt
-# ============================================================
+
 
 system_prompt = """
 You are a scientific literature assistant.
@@ -180,9 +180,9 @@ Please answer the question based only on the retrieved evidence.
 """
 
 
-# ============================================================
+
 # 11. Call LLM
-# ============================================================
+
 
 print("\nGenerating answer...\n")
 
@@ -205,9 +205,9 @@ response = client.chat.completions.create(
 answer = response.choices[0].message.content
 
 
-# ============================================================
+
 # 12. Display result
-# ============================================================
+
 
 print("=" * 70)
 print("Answer")

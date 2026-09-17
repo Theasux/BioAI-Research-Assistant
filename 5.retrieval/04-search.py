@@ -4,9 +4,9 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 
 
-# ============================================================
+
 # 1. Configuration
-# ============================================================
+
 
 INDEX_PATH = "index/pubmed.index"
 CHUNKS_PATH = "index/chunks.json"
@@ -16,9 +16,9 @@ MODEL_NAME = "all-MiniLM-L6-v2"
 TOP_K = 5
 
 
-# ============================================================
+
 # 2. Load FAISS index
-# ============================================================
+
 
 print("=" * 70)
 print("Loading Literature Retrieval System")
@@ -32,9 +32,9 @@ print(f"FAISS vectors: {index.ntotal}")
 print(f"Vector dimension: {index.d}")
 
 
-# ============================================================
+
 # 3. Load chunk metadata
-# ============================================================
+
 
 print("\nLoading chunk metadata...")
 
@@ -44,9 +44,9 @@ with open(CHUNKS_PATH, "r", encoding="utf-8") as f:
 print(f"Loaded chunks: {len(chunks)}")
 
 
-# ============================================================
+
 # 4. Check index and metadata consistency
-# ============================================================
+
 
 if index.ntotal != len(chunks):
     raise ValueError(
@@ -57,9 +57,9 @@ if index.ntotal != len(chunks):
 print("Index and metadata are consistent.")
 
 
-# ============================================================
+
 # 5. Load embedding model
-# ============================================================
+
 
 print("\nLoading Embedding Model...")
 
@@ -68,9 +68,9 @@ model = SentenceTransformer(MODEL_NAME)
 print("Embedding model loaded.")
 
 
-# ============================================================
+
 # 6. Search function
-# ============================================================
+
 
 def search_literature(query, top_k=5):
 
@@ -130,9 +130,9 @@ def search_literature(query, top_k=5):
         print(chunk["text"])
 
 
-# ============================================================
+
 # 7. Interactive search
-# ============================================================
+
 
 while True:
 
