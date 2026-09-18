@@ -61,35 +61,37 @@ Evidence-grounded Answer
     |
     v
 PMID Citations
-Dataset
+```
+## Dataset
 
 The current development corpus contains:
 
-555 unique PubMed papers
-2,718 text chunks
-384-dimensional embeddings
+- **555 unique PubMed papers**
+- **2,718 text chunks**
+- **384-dimensional embeddings**
 
 The literature corpus covers several life-science topics, including:
 
-Salt stress
-Alternative splicing
-Ion transport
-Maize regulation
-Photosynthesis
+- Salt stress
+- Alternative splicing
+- Ion transport
+- Maize regulation
+- Photosynthesis
 
 All literature records used in the project are collected from publicly available PubMed data.
 
-Retrieval
-Dense Semantic Retrieval
+## Retrieval
+
+### Dense Semantic Retrieval
 
 The system uses Sentence Transformers to convert scientific text into dense semantic embeddings.
 
 The current implementation uses:
 
-Model: all-MiniLM-L6-v2
-Embedding dimension: 384
-Vector index: FAISS IndexFlatIP
-Normalized embeddings
+- Model: `all-MiniLM-L6-v2`
+- Embedding dimension: **384**
+- Vector index: FAISS `IndexFlatIP`
+- Normalized embeddings
 
 With normalized embeddings, inner product similarity corresponds to cosine similarity.
 
@@ -99,26 +101,27 @@ The current implementation retrieves the top 100 candidate chunks and aggregates
 
 This combines fine-grained semantic matching with paper-level ranking.
 
-BM25 Keyword Retrieval
+### BM25 Keyword Retrieval
 
 BM25 is used as a keyword-based retrieval method to capture lexical matching.
 
 Compared with semantic retrieval, BM25 is particularly useful when queries contain:
 
-Gene symbols
-Protein names
-Abbreviations
-Technical terminology
-Exact scientific keywords
+- Gene symbols
+- Protein names
+- Abbreviations
+- Technical terminology
+- Exact scientific keywords
 
 The current implementation performs BM25 retrieval at the paper level.
 
-Hybrid Retrieval
+### Hybrid Retrieval
 
 Dense Retrieval and BM25 are combined using Reciprocal Rank Fusion (RRF).
 
 The retrieval process is:
 
+```text
 User Query
     |
     +-------------------------+
@@ -142,6 +145,7 @@ PMID-level Aggregation
                  |
                  v
               Top-K
+```
 
 Dense retrieval and BM25 provide complementary retrieval signals.
 
@@ -149,26 +153,31 @@ Dense retrieval focuses on semantic similarity, while BM25 focuses on lexical ma
 
 The final hybrid results are ranked at the PMID level and deduplicated before being passed to the RAG pipeline.
 
-Reciprocal Rank Fusion
+## Reciprocal Rank Fusion
 
 Reciprocal Rank Fusion combines ranked results from different retrieval systems without directly combining their original scores.
 
 The RRF score is defined as:
 
+```text
 RRF(d) = Σ 1 / (k + rank(d))
+```
 
 The current implementation uses:
 
+```text
 k = 60
+```
 
 RRF is used because Dense Retrieval and BM25 produce scores with different scales.
 
 Instead of directly adding incompatible similarity scores, RRF combines the relative rankings produced by the two retrieval methods.
 
-RAG Pipeline
+## RAG Pipeline
 
 The project implements a retrieval-augmented generation pipeline:
 
+```text
 Query
   |
   v
@@ -191,6 +200,7 @@ Evidence-grounded Answer
   |
   v
 PMID Citations
+```
 
 The retrieval system provides scientific literature evidence as external context for the language model.
 
@@ -200,50 +210,55 @@ The generated answer is based on the retrieved literature context, with PMID ide
 
 The core idea is:
 
+```text
 Retrieval provides evidence
           +
 LLM provides generation
           =
 Evidence-grounded scientific QA
-Evaluation
+```
+
+## Evaluation
 
 A small development benchmark was constructed to evaluate the retrieval system.
 
 The benchmark contains:
 
-8 evaluation questions
-18 ground-truth relevant PMIDs
-Recall@5
-Precision@5
-MRR
+- **8 evaluation questions**
+- **18 ground-truth relevant PMIDs**
+- Recall@5
+- Precision@5
+- MRR
 
 The benchmark is intended for system development and debugging rather than large-scale statistical evaluation.
 
-Retrieval Comparison
+### Retrieval Comparison
 
 The current development benchmark produced the following results:
 
-Method	Recall@5	Precision@5	MRR
-Dense Retrieval	0.312	0.100	0.250
-BM25	0.292	0.075	0.281
-Hybrid RRF	0.323	0.100	0.417
+| Method | Recall@5 | Precision@5 | MRR |
+| --- | ---: | ---: | ---: |
+| Dense Retrieval | 0.312 | 0.100 | 0.250 |
+| BM25 | 0.292 | 0.075 | 0.281 |
+| Hybrid RRF | 0.323 | 0.100 | 0.417 |
 
 Because the benchmark contains only 8 questions, these results should be interpreted as development-level observations rather than statistically conclusive comparisons.
 
 The evaluation code supports comparison of:
 
-Dense Retrieval
-BM25
-Hybrid RRF
+- Dense Retrieval
+- BM25
+- Hybrid RRF
 
 using standard information retrieval metrics.
 
-Ground-truth Coverage
+## Ground-truth Coverage
 
 A ground-truth coverage audit was performed before interpreting retrieval results.
 
-All 18 ground-truth PMIDs were found in the current literature corpus.
+All **18 ground-truth PMIDs** were found in the current literature corpus.
 
+```text
 18 Ground-truth PMIDs
           |
           v
@@ -251,41 +266,48 @@ All 18 ground-truth PMIDs were found in the current literature corpus.
           |
           v
 Coverage = 100%
+```
 
 This analysis helps distinguish retrieval failures from corpus coverage failures.
 
 If a relevant PMID is absent from the corpus, the retrieval system cannot retrieve it regardless of retrieval quality.
 
-Retrieval Error Analysis
+## Retrieval Error Analysis
 
 The project includes retrieval error analysis to investigate why relevant papers may not appear in the final Top-K results.
 
 The analysis considers several potential sources of retrieval errors:
 
-Relevant papers not retrieved by Dense Retrieval
-Relevant papers not retrieved by BM25
-Ranking changes after hybrid fusion
-Top-K truncation
-Semantic similarity without sufficient relevance
-Corpus coverage limitations
+- Relevant papers not retrieved by Dense Retrieval
+- Relevant papers not retrieved by BM25
+- Ranking changes after hybrid fusion
+- Top-K truncation
+- Semantic similarity without sufficient relevance
+- Corpus coverage limitations
 
 The purpose of error analysis is to identify retrieval bottlenecks before modifying the retrieval architecture.
 
-LLM-only vs. RAG
+## LLM-only vs. RAG
 
 The project also includes an experimental comparison between:
 
+```text
 LLM-only
+```
 
 and:
 
+```text
 Retrieval + RAG + LLM
+```
 
 The purpose of this experiment is to examine the effect of providing external scientific literature as context to the language model.
 
 This experiment is used as a development comparison rather than a large-scale benchmark.
 
-Project Structure
+## Project Structure
+
+```text
 BioAI-Research-Assistant/
 |
 ├── 5.retrieval/
@@ -315,84 +337,98 @@ BioAI-Research-Assistant/
 ├── README.md
 ├── requirements.txt
 └── .gitignore
-Technologies
-AI / Information Retrieval
-Sentence Transformers
-Transformer-based Embeddings
-FAISS
-BM25
-Reciprocal Rank Fusion (RRF)
-Retrieval-Augmented Generation (RAG)
-Large Language Model API
-Programming / Data
-Python
-NumPy
-REST API
-XML
-JSON
-Git
-Conda
-Scientific Data
-PubMed
-Scientific Literature
-Life Science Research
-Reproducibility
+```
+
+## Technologies
+
+### AI / Information Retrieval
+
+- Sentence Transformers
+- Transformer-based Embeddings
+- FAISS
+- BM25
+- Reciprocal Rank Fusion (RRF)
+- Retrieval-Augmented Generation (RAG)
+- Large Language Model API
+
+### Programming / Data
+
+- Python
+- NumPy
+- REST API
+- XML
+- JSON
+- Git
+- Conda
+
+### Scientific Data
+
+- PubMed
+- Scientific Literature
+- Life Science Research
+
+## Reproducibility
 
 The project uses Python and commonly available open-source libraries.
 
 Install the required dependencies with:
 
+```bash
 pip install -r requirements.txt
+```
 
 The main project dependencies are:
 
+```text
 numpy
 requests
 sentence-transformers
 faiss-cpu
 rank-bm25
 openai
+```
 
-Large local datasets, FAISS indexes, generated retrieval results, and model files are excluded from Git through .gitignore.
+Large local datasets, FAISS indexes, generated retrieval results, and model files are excluded from Git through `.gitignore`.
 
 The literature corpus and retrieval indexes are generated locally using the provided scripts.
 
-Current Status
+## Current Status
 
 The current version implements the workflow from public scientific literature collection to evidence-grounded question answering.
 
 Implemented components include:
 
-PubMed literature collection
-Corpus construction
-Text cleaning and chunking
-Dense semantic retrieval
-BM25 keyword retrieval
-Hybrid retrieval
-RRF ranking
-PMID-level aggregation and deduplication
-Retrieval evaluation
-Ground-truth coverage analysis
-Retrieval error analysis
-RAG-based question answering
-LLM-only vs. RAG comparison
-Future Development
+- PubMed literature collection
+- Corpus construction
+- Text cleaning and chunking
+- Dense semantic retrieval
+- BM25 keyword retrieval
+- Hybrid retrieval
+- RRF ranking
+- PMID-level aggregation and deduplication
+- Retrieval evaluation
+- Ground-truth coverage analysis
+- Retrieval error analysis
+- RAG-based question answering
+- LLM-only vs. RAG comparison
+
+## Future Development
 
 Potential future improvements include:
 
-Larger retrieval evaluation datasets
-Improved chunking strategies
-Query expansion
-Reranking
-Citation verification
-Tool Calling
-Agent-based literature search
-Backend API service
-Interactive frontend
+- Larger retrieval evaluation datasets
+- Improved chunking strategies
+- Query expansion
+- Reranking
+- Citation verification
+- Tool Calling
+- Agent-based literature search
+- Backend API service
+- Interactive frontend
 
 These components are planned extensions and are not part of the current implemented version.
 
-Motivation
+## Motivation
 
 This project was developed as an independent exploration of AI applications in life science research.
 
